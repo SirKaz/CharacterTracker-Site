@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Downloads - CharacterTracker</title>
+<link rel="icon" href="assets/morgris.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="nav-inner">
+        <a class="brand" href="index.html">
+            <img src="assets/morgris.png" alt="Morgris logo">
+            CharacterTracker
+        </a>
+        <nav class="site-nav">
+            <a href="index.html">Home</a>
+            <a href="downloads.html" class="active">Downloads</a>
+            <a href="guides.html">Guides</a>
+            <a href="feedback.html">Feedback</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="container" style="padding-top:40px;">
+
+        <h1>Downloads</h1>
+        <p style="color:var(--text-dim);">
+            Every download links straight to the latest build on GitHub Releases.
+        </p>
+
+        <!-- ====================================================================
+             EDD: each button below points at a GitHub Release asset. Replace
+             YOUR-GITHUB-USERNAME and REPO-NAME in the href with your real
+             values once you've created a release and uploaded the file - see
+             SETUP-INSTRUCTIONS.md, step "Publishing app downloads". Until
+             then these are placeholders and won't point anywhere real.
+             ==================================================================== -->
+
+        <div class="card">
+            <h2>&#129302; Android <span class="tag">.apk</span></h2>
+            <p style="color:var(--text-dim);">
+                Downloads as an .apk file. Android will warn about installing from an unknown
+                source the first time - that's expected for an app outside the Play Store, not
+                a sign anything is wrong. You'll need to tap "Install anyway" (wording varies by
+                phone).
+            </p>
+            <a class="btn btn-filled" href="https://github.com/YOUR-GITHUB-USERNAME/REPO-NAME/releases/latest/download/CharacterTracker.apk">
+                Download for Android
+            </a>
+        </div>
+
+        <div class="card">
+            <h2>&#128421;&#65039; Windows <span class="tag">.msix</span></h2>
+            <p style="color:var(--text-dim);">
+                Downloads as an .msix installer. Because it isn't signed with a paid code-signing
+                certificate, Windows SmartScreen may show a warning the first time you run it -
+                choose "More info" then "Run anyway" to continue.
+            </p>
+            <a class="btn btn-filled" href="https://github.com/YOUR-GITHUB-USERNAME/REPO-NAME/releases/latest/download/CharacterTracker.msix">
+                Download for Windows
+            </a>
+        </div>
+
+        <div class="card">
+            <h2>&#127822; iOS <span class="tag">coming soon</span></h2>
+            <p style="color:var(--text-dim);">
+                An iOS version is planned but not built yet. Check back later, or leave a note on
+                the <a href="feedback.html">feedback page</a> if you'd like to be notified.
+            </p>
+            <button class="btn btn-tonal" disabled>Not yet available</button>
+        </div>
+
+        <div class="card">
+            <h2>All releases</h2>
+            <p style="color:var(--text-dim);">
+                Looking for an older version, or want to see what changed between builds? Every
+                release (with its own notes) is listed on GitHub.
+            </p>
+            <a class="btn btn-tonal" href="https://github.com/YOUR-GITHUB-USERNAME/REPO-NAME/releases">
+                View all releases on GitHub
+            </a>
+        </div>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    Built by Edd Robinson for the Lorien Trust community. Not an official Lorien Trust product.
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feedback - CharacterTracker</title>
+<link rel="icon" href="assets/morgris.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="nav-inner">
+        <a class="brand" href="index.html">
+            <img src="assets/morgris.png" alt="Morgris logo">
+            CharacterTracker
+        </a>
+        <nav class="site-nav">
+            <a href="index.html">Home</a>
+            <a href="downloads.html">Downloads</a>
+            <a href="guides.html">Guides</a>
+            <a href="feedback.html" class="active">Feedback</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="container" style="padding-top:40px; max-width:640px;">
+
+        <h1>Feedback &amp; suggestions</h1>
+        <p style="color:var(--text-dim);">
+            Found a bug, or got an idea for the app? Let me know below - no account needed.
+        </p>
+
+        <div class="card">
+            <form id="feedback-form">
+                <label for="name">Name <span style="font-weight:400; color:var(--text-dim);">(optional)</span></label>
+                <input type="text" id="name" name="name" autocomplete="name">
+
+                <label for="email">Email <span style="font-weight:400; color:var(--text-dim);">(optional - only if you'd like a reply)</span></label>
+                <input type="email" id="email" name="email" autocomplete="email">
+
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required placeholder="Bug report, idea, general feedback..."></textarea>
+
+                <div style="margin-top:18px;">
+                    <button type="submit" class="btn btn-filled" id="submit-btn">Send feedback</button>
+                </div>
+
+                <p id="status-line" class="status-line" style="display:none;"></p>
+            </form>
+        </div>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    Built by Edd Robinson for the Lorien Trust community. Not an official Lorien Trust product.
+</footer>
+
+<script>
+// ============================================================================
+// EDD: fill in your Supabase project's URL and anon (public) key below - the
+// same two values the app itself uses to talk to Supabase. Find them in the
+// Supabase dashboard under Project Settings -> API. The anon key is *meant*
+// to be public (it's what the app itself ships with too) - it's safe to put
+// here as long as the "feedback" table's Row Level Security policy stays
+// insert-only, which supabase-feedback-schema.sql sets up for you. See
+// SETUP-INSTRUCTIONS.md for the full walkthrough.
+// ============================================================================
+const SUPABASE_URL = "https://YOUR-PROJECT-REF.supabase.co";
+const SUPABASE_ANON_KEY = "YOUR-ANON-KEY-HERE";
+
+const form = document.getElementById("feedback-form");
+const statusLine = document.getElementById("status-line");
+const submitBtn = document.getElementById("submit-btn");
+
+function showStatus(message, isError) {
+    statusLine.textContent = message;
+    statusLine.className = "status-line " + (isError ? "error" : "success");
+    statusLine.style.display = "block";
+}
+
+form.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const message = document.getElementById("message").value.trim();
+
+    if (!message) {
+        showStatus("Please enter a message before sending.", true);
+        return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+
+    try {
+        const response = await fetch(SUPABASE_URL + "/rest/v1/feedback", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "apikey": SUPABASE_ANON_KEY,
+                "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+                "Prefer": "return=minimal"
+            },
+            body: JSON.stringify({
+                name: name || null,
+                email: email || null,
+                message: message,
+                page_url: window.location.href
+            })
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText || ("Request failed with status " + response.status));
+        }
+
+        form.reset();
+        showStatus("Thanks - your feedback has been sent!", false);
+    } catch (err) {
+        console.error(err);
+        showStatus("Something went wrong sending your feedback. Please try again in a moment.", true);
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send feedback";
+    }
+});
+</script>
+
+</body>
+</html>
